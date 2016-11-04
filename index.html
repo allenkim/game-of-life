@@ -6,6 +6,7 @@
 		<script src=gameoflife.js defer></script>
 	</head>
 	<body>
+		<h1> Game of Life </h1>
 		<div id="grid_div" style="width:800px;height:600px">
 			<svg id="grid" width="100%" height="100%">
 				<defs>
@@ -17,6 +18,11 @@
 				<rect width="100%" height="100%" stroke="#000000" fill="url(#grid)" />
 			</svg>
 		</div>
+		<input type="button" value="Initialize Random Grid" onclick="initializeRandomGrid();" />
+		<input type="button" value="Create Glider Gun!" onclick="createGliderGun();" />
+		<input type="button" value="Start Simulation" onclick="startSimulation();" />
+		<input type="button" value="Stop Simulation" onclick="stopSimulation();" />
+		<input type="button" value="Clear Grid" onclick="resetGrid();" />
 		<script>
 			var height = document.getElementById('grid_div').offsetHeight;
 			var width = document.getElementById('grid_div').offsetWidth;
@@ -29,7 +35,15 @@
 					cell.setAttribute('y',row);
 					cell.setAttribute('width',10);
 					cell.setAttribute('height',10);
-					cell.setAttribute('fill-opacity',0)
+					cell.setAttribute('fill-opacity',0);
+					cell.onclick = function(e){
+						var opacity = e.target.getAttribute('fill-opacity');
+						e.target.setAttribute('fill-opacity',1-opacity);
+						var rectID = e.toElement.id;
+						var point = rectID.split('-');
+						grid[point[0]][point[1]] = 1-opacity;
+						console.log(point[0],point[1]);
+					};
 					svg.appendChild(cell);
 				}
 			}

@@ -1,22 +1,11 @@
 var height = document.getElementById('grid_div').offsetHeight / 10;
 var width = document.getElementById('grid_div').offsetWidth / 10;
+var tick; // for setInterval
 var grid = [];
 for (var row = 0; row < height; row++){
   grid.push([]);
   for (var col = 0; col < width; col++)
     grid[row][col] = 0;
-}
-
-function initializeRandomGrid(){
-  for (var row = 0; row < height; row++){
-    for (var col = 0; col < width; col++){
-      var rand = Math.random();
-      if (rand < 0.9)
-        grid[row][col] = 0;
-      else
-        grid[row][col] = 1;
-    }
-  }
 }
 
 function drawGrid(){
@@ -29,6 +18,19 @@ function drawGrid(){
         cell.setAttribute('fill-opacity',0);
     }
   }
+}
+
+function initializeRandomGrid(){
+  for (var row = 0; row < height; row++){
+    for (var col = 0; col < width; col++){
+      var rand = Math.random();
+      if (rand < 0.6)
+        grid[row][col] = 0;
+      else
+        grid[row][col] = 1;
+    }
+  }
+  drawGrid();
 }
 
 function numNeighbors(row,col){
@@ -64,19 +66,68 @@ function evolveGrid(){
     }
   }
   grid = next;
+  drawGrid();
   return changed;
 }
 
 function startSimulation(){
   var day = 1;
-  var tick = setInterval(function(){
-    if (evolveGrid())
-      drawGrid();
-    else
+  tick = setInterval(function(){
+    if (!evolveGrid())
       clearInterval(tick);
-    console.log(day++);
-  },100);
+  },80);
 }
 
-initializeRandomGrid();
-startSimulation();
+function stopSimulation(){
+  clearInterval(tick);
+}
+
+function resetGrid(){
+  for (var row = 0; row < height; row++){
+    for (var col = 0; col < width; col++){
+      grid[row][col] = 0;
+    }
+  }
+  drawGrid();
+}
+
+function createGliderGun(){
+  resetGrid();
+  grid[15][12] = 1;
+  grid[14][12] = 1;
+  grid[14][13] = 1;
+  grid[15][13] = 1;
+  grid[14][22] = 1;
+  grid[15][22] = 1;
+  grid[16][22] = 1;
+  grid[13][23] = 1;
+  grid[12][24] = 1;
+  grid[17][23] = 1;
+  grid[18][24] = 1;
+  grid[12][25] = 1;
+  grid[18][25] = 1;
+  grid[15][26] = 1;
+  grid[13][27] = 1;
+  grid[17][27] = 1;
+  grid[14][28] = 1;
+  grid[15][28] = 1;
+  grid[16][28] = 1;
+  grid[15][29] = 1;
+  grid[14][32] = 1;
+  grid[13][32] = 1;
+  grid[12][32] = 1;
+  grid[12][33] = 1;
+  grid[13][33] = 1;
+  grid[14][33] = 1;
+  grid[11][34] = 1;
+  grid[15][34] = 1;
+  grid[11][36] = 1;
+  grid[10][36] = 1;
+  grid[15][36] = 1;
+  grid[16][36] = 1;
+  grid[12][46] = 1;
+  grid[13][46] = 1;
+  grid[13][47] = 1;
+  grid[12][47] = 1;
+  drawGrid();
+}
