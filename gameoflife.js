@@ -11,7 +11,7 @@ function initializeRandomGrid(){
   for (var row = 0; row < height; row++){
     for (var col = 0; col < width; col++){
       var rand = Math.random();
-      if (rand < 0.5)
+      if (rand < 0.9)
         grid[row][col] = 0;
       else
         grid[row][col] = 1;
@@ -34,7 +34,7 @@ function drawGrid(){
 function numNeighbors(row,col){
   var count = 0;
   var dr = [-1,-1,-1,0,0,1,1,1];
-  var dc = [-1,0,1,-1,1,-1,0,-1];
+  var dc = [-1,0,1,-1,1,-1,0,1];
   for (var i = 0; i < 8; i++){
     if (grid[row+dr[i]])
       if (grid[row+dr[i]][col+dc[i]])
