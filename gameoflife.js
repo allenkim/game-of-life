@@ -1,6 +1,7 @@
 var height = document.getElementById('grid_div').offsetHeight / 10;
 var width = document.getElementById('grid_div').offsetWidth / 10;
 var tick; // for setInterval
+var running = false; // boolean to check if the simulation is running or not
 var grid = [];
 for (var row = 0; row < height; row++){
   grid.push([]);
@@ -71,15 +72,21 @@ function evolveGrid(){
 }
 
 function startSimulation(){
+  if (running)
+    return;
   var day = 1;
+  running = true;
   tick = setInterval(function(){
-    if (!evolveGrid())
+    if (!evolveGrid()){
       clearInterval(tick);
+      running = false;
+    }
   },80);
 }
 
 function stopSimulation(){
   clearInterval(tick);
+  running = false;
 }
 
 function resetGrid(){
